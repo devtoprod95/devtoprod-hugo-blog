@@ -5,7 +5,7 @@ services:
     container_name: hugo-blog
     # 도커가 실행하는 유저를 로컬의 일반 사용자(g015) 권한으로 강제 고정
     user: "1000:1000"
-    command: server --bind 0.0.0.0 -p 1313 --buildDrafts --watch
+    command: server --bind 0.0.0.0 -p 1313 --buildDrafts --watch --ignoreCache --disableFastRender
     volumes:
       - ./blog:/src
     ports:

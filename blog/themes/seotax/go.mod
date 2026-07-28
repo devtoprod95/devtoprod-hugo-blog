@@ -1,3 +1,3 @@
-module github.com/minyeamer/hugo-seotax
+module github.com/devtoprod/hugo-seotax
 
 go 1.16
