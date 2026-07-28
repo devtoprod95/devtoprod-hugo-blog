@@ -1,5 +1,5 @@
 baseURL: "http://localhost:1313/"
-title: "Minystory"
+title: "devtoprod"
 description: "devtoprod's dev blog"
 copyright: "[© CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)"
 
@@ -43,9 +43,18 @@ params:
     profileImage: "/images/profile/profile.jpg"
     categories: true
     recentPosts: true
+    categoryOrder:
+      - name: "개발"
+        weight: 1
+      - name: "블로그"
+        weight: 2
+      - name: "독서"
+        weight: 3
+      - name: "기타"
+        weight: 4
 
   social:
-    github: "https://github.com/devtoprod"
+    github: "https://github.com/devtoprod95"
 
   i18nDir: "themes/seotax/i18n"
 

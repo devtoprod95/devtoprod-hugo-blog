@@ -3,9 +3,9 @@
 
 name = "SeoTax"
 license = "MIT"
-licenselink = "https://github.com/devtoprod/hugo-seotax/blob/main/LICENSE"
+licenselink = "https://github.com/devtoprod95/hugo-seotax/blob/main/LICENSE"
 description = "Hugo theme for bloggers with advanced taxonomy search for better content discovery."
-homepage = "https://github.com/devtoprod/hugo-seotax"
+homepage = "https://github.com/devtoprod95/hugo-seotax"
 demosite = "https://devtoprod.github.io/hugo-seotax/"
 tags = ["blog", "light", "dark", "dark mode", "search", "categories", "responsive", "multilingual"]
 features = ["search", "categories", "tags", "dark mode", "i18n"]
@@ -13,7 +13,7 @@ min_version = "0.146.0"
 
 [author]
   name = "devtoprod"
-  homepage = "https://github.com/devtoprod/"
+  homepage = "https://github.com/devtoprod95/"
 
 [original]
   author = "Alex Shpak"
