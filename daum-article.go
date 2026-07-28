@@ -224,7 +224,7 @@ func parseArticle(id, html, originalURL string) (NewsArticle, error) {
 		}
 	}
 
-	// 5. Parse first 2 Paragraphs for Citation (Skip images for copyright safety)
+	// 5. Parse Content and Figures (Images with Captions) in sequential order
 	viewRe := regexp.MustCompile(`(?s)<div[^>]*class="article_view"[^>]*>(.*?)</div>`)
 	viewMatch := viewRe.FindStringSubmatch(html)
 	var content string
@@ -232,26 +232,57 @@ func parseArticle(id, html, originalURL string) (NewsArticle, error) {
 	if len(viewMatch) > 1 {
 		bodyHTML := viewMatch[1]
 		
-		// Match only <p dmcf-ptype="general"> or <div dmcf-ptype="general">
-		re := regexp.MustCompile(`(?s)<(?:p|div)[^>]*dmcf-ptype="general"[^>]*>(.*?)</(?:p|div)>`)
+		// Match general paragraphs and figure tags in order
+		re := regexp.MustCompile(`(?s)<(?:p|div)[^>]*dmcf-ptype="general"[^>]*>(.*?)</(?:p|div)>|<figure[^>]*>(.*?)</figure>`)
 		matches := re.FindAllStringSubmatch(bodyHTML, -1)
 		
 		var contentBuilder strings.Builder
 		tagRe := regexp.MustCompile(`<[^>]*>`)
-		paragraphCount := 0
 		
 		for _, match := range matches {
-			if len(match) > 1 && match[1] != "" {
+			if len(match) > 1 && match[1] != "" { // Paragraph text match
 				pText := match[1]
 				pText = tagRe.ReplaceAllString(pText, "")
 				pText = htmlUnescape(strings.TrimSpace(pText))
 				if pText != "" {
 					contentBuilder.WriteString(pText)
 					contentBuilder.WriteString("\n\n")
-					paragraphCount++
-					// Stop after collecting 5 paragraphs for brief citation
-					if paragraphCount >= 5 {
-						break
+				}
+			} else if len(match) > 2 && match[2] != "" { // Figure (Image + Caption) match
+				figHTML := match[2]
+				
+				// Extract image URL
+				imgRe := regexp.MustCompile(`data-org-src="([^"]+)"|src="([^"]+)"`)
+				imgMatch := imgRe.FindStringSubmatch(figHTML)
+				
+				var imgURL string
+				if len(imgMatch) > 1 && imgMatch[1] != "" {
+					imgURL = imgMatch[1]
+				} else if len(imgMatch) > 2 && imgMatch[2] != "" {
+					imgURL = imgMatch[2]
+				}
+				
+				// Extract caption/source
+				captionRe := regexp.MustCompile(`<figcaption[^>]*>(.*?)</figcaption>`)
+				captionMatch := captionRe.FindStringSubmatch(figHTML)
+				var caption string
+				if len(captionMatch) > 1 {
+					caption = tagRe.ReplaceAllString(captionMatch[1], "")
+					caption = htmlUnescape(strings.TrimSpace(caption))
+				}
+				
+				if imgURL != "" {
+					// Filter out tiny tracker icons or pixels
+					if !strings.Contains(imgURL, "icon") && !strings.Contains(imgURL, "blank") && !strings.Contains(imgURL, "pixel") && !strings.Contains(imgURL, "size=") {
+						if !strings.HasPrefix(imgURL, "http") {
+							imgURL = "https:" + imgURL
+						}
+						contentBuilder.WriteString(fmt.Sprintf("![image](%s)\n", imgURL))
+						if caption != "" {
+							contentBuilder.WriteString(fmt.Sprintf("<center><small>*%s*</small></center>\n\n", caption))
+						} else {
+							contentBuilder.WriteString("\n")
+						}
 					}
 				}
 			}
@@ -316,17 +347,17 @@ originalUrl: "%s"
 categories: ["기사", "%s"]
 ---
 
-%s...
+%s
 
 ---
 
 ## 📰 원본 기사 읽기
-전체 기사 본문과 사진은 아래의 원본 링크를 통해 확인하실 수 있습니다.
+전체 기사 및 상세 정보는 아래의 원본 링크를 통해 확인하실 수 있습니다.
 
 👉 [**원본 기사 바로가기**](%s)
 
 ---
-> **인용 고지**: 본 기사는 저작권법 준수 및 정보 안내 목적으로 Daum 연예 기사 일부를 요약/인용한 글입니다. 원본 기사의 저작권은 해당 언론사 및 기자에게 있습니다.
+> **출처 고지**: 본 포스팅은 정보 공유를 목적으로 Daum 연예 뉴스를 스크랩/출처 표기한 글입니다. 기사 및 이미지의 모든 저작권은 해당 언론사 및 기자에게 귀속됩니다.
 `, 
 		strings.ReplaceAll(article.Title, "\"", "\\\""),
 		article.Date.Format("2006-01-02T15:04:05+09:00"),
