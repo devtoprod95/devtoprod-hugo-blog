@@ -1,6 +1,6 @@
 ---
 title: 기타 포스트 예시 - 시간 관리
-date: 2026-07-26
+date: 2025-01-03
 categories:
   - 기타
 tags:

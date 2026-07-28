@@ -10,7 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const params = new URLSearchParams(window.location.search);
   const getDecoded = (k) => {
-    try { return decodeURIComponent(params.get(k) || ''); } catch(e) { return params.get(k) || ''; }
+    try {
+      let val = params.get(k) || '';
+      // 이중 인코딩(%2520) 및 %20 대응 안전 반복 디코딩
+      val = decodeURIComponent(val);
+      if (val.includes('%')) {
+        val = decodeURIComponent(val);
+      }
+      return val.trim();
+    } catch(e) {
+      let val = params.get(k) || '';
+      return val.replace(/%2520/g, ' ').replace(/%20/g, ' ').trim();
+    }
   };
   const state = {
     query: getDecoded('query'),
@@ -849,7 +860,7 @@ document.addEventListener('DOMContentLoaded', function() {
    * Initialize filter chips from URL parameters.
    */
   function initFiltersFromState() {
-    const categories = window.siteSearch.categories;
+    const categories = window.siteSearch.categories || {};
     const tags = window.siteSearch.tags;
 
     if (state.category1) {
@@ -892,7 +903,7 @@ document.addEventListener('DOMContentLoaded', function() {
    * @returns {Array} Array of matching categories with name and count
    */
   function filterCategories1(query, ids) {
-    const categories = window.siteSearch.categories;
+    const categories = window.siteSearch.categories || {};
     const matches = [];
 
     for (const key in categories) {
@@ -930,7 +941,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!selectedChip) return [];
 
     const parentKey = selectedChip.dataset.key.toLowerCase();
-    const categories = window.siteSearch.categories;
+    const categories = window.siteSearch.categories || {};
     const parentCategory = categories[parentKey];
     if (!parentCategory) return [];
 
@@ -1166,7 +1177,8 @@ document.addEventListener('DOMContentLoaded', function() {
    */
   function searchCategory1(state, appendHeader = false) {
     if (!state.query) resultScores = new Map();
-    const category1 = window.siteSearch.categories[state.category1.toLowerCase()];
+    const categories = window.siteSearch.categories || {};
+    const category1 = categories[state.category1.toLowerCase()];
     const hasCategory1 = (category1 instanceof Object) && (Object.keys(category1).length > 0);
     const category1Name = hasCategory1 ? category1['A']['name'] : capitalize(state.category1);
     const category1Posts = hasCategory1 ? category1['A']['ids'] : [];
@@ -1200,7 +1212,8 @@ document.addEventListener('DOMContentLoaded', function() {
    */
   function searchCategory2(state, appendHeader = false) {
     if (!state.query) resultScores = new Map();
-    const category1 = window.siteSearch.categories[state.category1.toLowerCase()];
+    const categories = window.siteSearch.categories || {};
+    const category1 = categories[state.category1.toLowerCase()];
     const hasCategory1 = (category1 instanceof Object) && (Object.keys(category1).length > 0);
     const category1Name = hasCategory1 ? category1['A']['name'] : '';
 

@@ -1,6 +1,6 @@
 baseURL: "http://localhost:1313/"
-title: "devtoprod Blog"
-description: "devtoprod blog"
+title: "Minystory"
+description: "minyeamer's dev blog"
 copyright: "[© CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)"
 
 theme: "seotax"
@@ -20,8 +20,8 @@ minify:
   minifyOutput: true
 
 params:
-  author: "devtoprod"
-  keywords: ["devtoprod", "Blog", "Data", "Engineering", "MLOps", "미니스토리", "블로그"]
+  author: "minyeamer"
+  keywords: ["minyeamer", "Blog", "Data", "Engineering", "MLOps", "미니스토리", "블로그"]
 
   posts:
     section: "posts"
@@ -45,7 +45,7 @@ params:
     recentPosts: true
 
   social:
-    github: "https://github.com/devtoprod"
+    github: "https://github.com/minyeamer"
 
   i18nDir: "themes/seotax/i18n"
 

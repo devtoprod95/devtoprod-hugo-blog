@@ -1,6 +1,6 @@
 ---
 title: 개발 포스트 예시 - AI 기술
-date: 2026-07-28
+date: 2025-01-01
 categories:
   - 개발
   - AI 도구
