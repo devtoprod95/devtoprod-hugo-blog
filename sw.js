@@ -3,6 +3,10 @@ const pages = [
 
   "/devtoprod-hugo-blog/",
   "/devtoprod-hugo-blog/posts/",
+  "/devtoprod-hugo-blog/blog/20260727172313261/",
+  "/devtoprod-hugo-blog/blog/20260728153109335/",
+  "/devtoprod-hugo-blog/blog/20260728163151459/",
+  "/devtoprod-hugo-blog/blog/20260728163710653/",
   "/devtoprod-hugo-blog/blog/2026-07-28-153051-naver-ranking/",
   "/devtoprod-hugo-blog/blog/2026-07-28-153040-naver-relationship/",
   "/devtoprod-hugo-blog/blog/2026-07-28-153031-naver-music/",
