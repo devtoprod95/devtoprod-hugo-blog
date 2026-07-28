@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const SEARCH_PATH = '{{ "search/" | relLangURL }}';
 
-  if (!window.location.pathname.startsWith(SEARCH_PATH)) {
+  if (!window.location.pathname.includes('/search')) {
     return;
   }
 
@@ -9,10 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const DEFAULT_SORT = '{{ lower (default "newest" .Site.Params.search.sort) }}';
 
   const params = new URLSearchParams(window.location.search);
+  const getDecoded = (k) => {
+    try { return decodeURIComponent(params.get(k) || ''); } catch(e) { return params.get(k) || ''; }
+  };
   const state = {
-    query: params.get('query') || '',
-    category1: params.get('category1') || '',
-    category2: params.get('category2') || '',
+    query: getDecoded('query'),
+    category1: getDecoded('category1'),
+    category2: getDecoded('category2'),
     tags: (params.get('tags')
       ? [...new Set(params.get('tags').split(',').map(tag => tag.trim()).filter(tag => tag))]
       : []),

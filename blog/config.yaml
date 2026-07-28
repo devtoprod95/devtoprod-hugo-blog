@@ -1,0 +1,86 @@
+baseURL: "http://localhost:1313/"
+title: "devtoprod Blog"
+description: "devtoprod blog"
+copyright: "[© CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)"
+
+theme: "seotax"
+
+# 한국어(ko)를 디폴트로 명시하여 파일명이 .ko.min.json 형태로 빌드되도록 강제 설정
+defaultContentLanguage: "ko"
+languageCode: "ko-kr"
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  author: "devtoprod"
+  keywords: ["devtoprod", "Blog", "Data", "Engineering", "MLOps", "미니스토리", "블로그"]
+
+  posts:
+    section: "posts"
+    sort: "newest"
+
+  search:
+    enabled: true
+    sort: "newest"
+
+  assets:
+    favicon: "/images/favicons/favicon.ico"
+    favicon16x16: "/images/favicons/favicon-16x16.png"
+    favicon32x32: "/images/favicons/favicon-32x32.png"
+    apple_touch_icon: "/images/favicons/apple-touch-icon.png"
+    safari_pinned_tab: "/images/favicons/apple-touch-icon.png"
+    opengraph: "/images/profile/opengraph.jpg"
+
+  menu:
+    profileImage: "/images/profile/menu.svg"
+    categories: true
+    recentPosts: true
+
+  social:
+    github: "https://github.com/devtoprod"
+
+  i18nDir: "themes/seotax/i18n"
+
+  images:
+    rootPath: "_images"
+    maxImageSize: 1920
+    roundedCorners: false
+    rotateLandscapeImages: true
+
+  serviceWorker: "precache"
+
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3
+
+  schema:
+    publisherType: "Person"
+
+markup:
+  goldmark:
+    extensions:
+      typographer:
+        disable: true
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    codeFences: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3
+
+permalinks:
+  posts: "/blog/:slugorcontentbasename/"
+
+disableKinds: ["term"]
+
+ignoreFiles: ["_page.md", "README.md"]

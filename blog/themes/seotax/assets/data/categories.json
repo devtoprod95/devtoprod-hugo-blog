@@ -7,7 +7,8 @@
   {{- $pagesL1 := dict -}}
   {{- range $id1, $page1 := $pages -}}
     {{- if eq (partial "categories/level1" $page1.Params.categories | default "") $key1 -}}
-      {{- $ids1 = $ids1 | append $id1 -}}
+      {{- /* ID 타입을 명시적으로 숫자형(int)으로 형변환하여 JS 매칭 버그 해결 */ -}}
+      {{- $ids1 = $ids1 | append (int $id1) -}}
       {{- $pagesL1 = $pagesL1 | merge (dict (string $id1) $page1) -}}
     {{- end -}}
   {{- end -}}

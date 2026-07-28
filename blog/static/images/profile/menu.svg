@@ -1,11 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    <!-- 세련된 인디고-보라 그라데이션 백그라운드 -->
+    <linearGradient id="avatar-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <circle cx="60" cy="60" r="60" fill="url(#bg)"/>
-  <circle cx="60" cy="45" r="20" fill="rgba(255,255,255,0.9)"/>
-  <ellipse cx="60" cy="100" rx="32" ry="25" fill="rgba(255,255,255,0.9)"/>
+  <!-- 배경 원형 -->
+  <circle cx="60" cy="60" r="60" fill="url(#avatar-bg)" />
+  
+  <!-- 아바타 몸통 (흰색) -->
+  <path d="M 60 72 C 38 72 26 84 24 102 C 24 104 25.5 106 27.5 106 L 92.5 106 C 94.5 106 96 104 96 102 C 94 84 82 72 60 72 Z" fill="#ffffff" />
+  
+  <!-- 아바타 머리 (흰색) -->
+  <circle cx="60" cy="46" r="19" fill="#ffffff" />
 </svg>
