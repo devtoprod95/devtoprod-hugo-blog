@@ -2,9 +2,13 @@ const cacheName = self.location.pathname
 const pages = [
 
   "/devtoprod-hugo-blog/",
-  "/devtoprod-hugo-blog/blog/project-introduction/",
   "/devtoprod-hugo-blog/posts/",
-  "/devtoprod-hugo-blog/blog/2026-07-28-120619-docker-test/",
+  "/devtoprod-hugo-blog/blog/2026-07-28-153051-naver-ranking/",
+  "/devtoprod-hugo-blog/blog/2026-07-28-153040-naver-relationship/",
+  "/devtoprod-hugo-blog/blog/2026-07-28-153031-naver-music/",
+  "/devtoprod-hugo-blog/blog/2026-07-28-153021-naver-movie/",
+  "/devtoprod-hugo-blog/blog/2026-07-28-153012-naver-drama/",
+  "/devtoprod-hugo-blog/blog/project-introduction/",
   "/devtoprod-hugo-blog/blog/etc-sample/",
   "/devtoprod-hugo-blog/blog/book-sample/",
   "/devtoprod-hugo-blog/blog/dev-sample/",
