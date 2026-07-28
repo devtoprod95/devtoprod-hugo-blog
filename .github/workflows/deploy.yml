@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master # master 브랜치에 푸시될 때 작동
+  schedule:
+    - cron: '0 */4 * * *' # 한국 시간 기준 매 4시간마다 수집 (UTC 0시, 4시, 8시, 12시, 16시, 20시...)
 
 permissions:
   contents: write
@@ -17,8 +19,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: true  # 서브모듈이 있다면 함께 checkout (현재는 일반 폴더 상태이나 예비용으로 활성화)
-          fetch-depth: 0    # Hugo가 날짜와 히스토리를 파악할 수 있도록 전체 Git 히스토리 패치
+          submodules: true  # 서브모듈이 있다면 함께 checkout
+          fetch-depth: 0    # 전체 Git 히스토리 패치
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Run Daum Entertainment Scraper
+        run: go run daum-article.go
+
+      - name: Commit and Push Scraped Articles
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog/content/posts/
+          
+          # 새로 추가되거나 변경된 파일이 있는지 확인 후 커밋/푸시
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: auto-scrape latest entertainment articles [skip ci]"
+            git push origin master
+          else
+            echo "No new articles found. Skipping commit."
+          fi
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
