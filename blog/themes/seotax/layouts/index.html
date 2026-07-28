@@ -1,0 +1,27 @@
+{{ define "content" }}
+<article class="content-wrap markdown">
+  {{ $sort := default "newest" .Site.Params.posts.sort }}
+  {{ $pages := partialCached "pages/posts" (dict "Page" . "Sort" $sort) "posts" .Site.Language.Lang $sort }}
+  {{ $paginate := .Paginate $pages 10 }}
+
+  <div class="list-header">
+    <h1>
+      <a href="{{ .Site.BaseURL }}" class="site-title">{{ .Site.Title }}</a>
+    </h1>
+    <p data-i18n-id="list.count.label" data-i18n-text='{"%s": "$.list-count"}'>
+      {{- $count := printf `<em class="list-count">%d</em>` (len $pages) -}}
+      {{- printf (i18n "list.count.label" | default "%s posts") $count | safeHTML -}}
+    </p>
+  </div>
+
+  {{ partial "post-list/sort-control.html" . }}
+
+  <div class="post-list">
+    {{ range $paginate.Pages }}
+      {{ partial "post-list/item.html" . }}
+    {{ end }}
+  </div>
+
+  {{ partial "pagination.html" $paginate }}
+</article>
+{{ end }}

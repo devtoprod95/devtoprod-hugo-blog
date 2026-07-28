@@ -1,0 +1,2 @@
+{{ $provider := .Site.Params.comments.provider | default "giscus" }}
+{{ partial (printf "footer/comments-%s.html" $provider) . }}

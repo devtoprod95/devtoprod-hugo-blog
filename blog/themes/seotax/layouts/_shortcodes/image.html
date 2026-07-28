@@ -1,0 +1,64 @@
+{{- /* --- Parameters: Image --- */ -}}
+{{- $src := partial "links/portable-image" (dict "Page" .Page "Destination" (.Get "src")) -}}
+{{- $alt := .Get "alt" -}}
+{{- $caption := .Get "caption" -}}
+{{- $class := .Get "class" -}}
+{{- $title := .Get "title" -}}
+{{- $loading := .Get "loading" -}}
+{{- $align := .Get "align" -}}
+{{- /* --- Parameters: Anchor --- */ -}}
+{{- $href := .Get "href" -}}
+{{- $target := .Get "target" | default "_blank" -}}
+{{- /* --- Parameters: Width --- */ -}}
+{{- $figureSize := slice -}}
+{{- $width := .Get "width" | default "" -}}
+{{- with .Get "min-width" -}}{{- $figureSize = $figureSize | append (print "min-width: " .) -}}{{- end -}}
+{{- with .Get "max-width" -}}{{- $figureSize = $figureSize | append (print "max-width: min(100%, " . ")") -}}{{- end -}}
+{{- /* --- Parameters: Height --- */ -}}
+{{- $imgSize := slice -}}
+{{- $height := .Get "height" | default "" -}}
+{{- with .Get "min-height" -}}{{- $imgSize = $imgSize | append (print "min-height: " .) -}}{{- end -}}
+{{- with .Get "max-height" -}}{{- $imgSize = $imgSize | append (print "max-height: " .) -}}{{- end -}}
+{{- /* --- Auto-detect dimensions if not provided --- */ -}}
+{{- if not (or $width $height) -}}
+  {{- $resolution := partial "content/img-size" (dict "Page" .Page "Url" $src) -}}
+  {{- if $resolution -}}
+    {{- $dims := split $resolution "x" -}}
+    {{- $width = printf "%spx" (index $dims 0) -}}
+    {{- $height = printf "%spx" (index $dims 1) -}}
+  {{- end -}}
+{{- end -}}
+{{- /* --- Id: global ordinal counter for images --- */ -}}
+{{- $imgOrdinal := .Page.Scratch.Get "sc-image-ordinal" -}}
+{{- if not $imgOrdinal -}}
+  {{- $imgOrdinal = 0 -}}
+{{- end -}}
+{{- $imgOrdinal = add $imgOrdinal 1 -}}
+{{- .Page.Scratch.Set "sc-image-ordinal" $imgOrdinal -}}
+{{- /* --- Render --- */ -}}
+<div class="sc-image{{ if site.Params.images.roundedCorners }} rounded{{ end }}" {{- with $align }}style="text-align: {{ . }};"{{ end -}}>
+  <figure class="sc-image-figure" {{ with $figureSize }}style="{{ delimit . `; ` | safeCSS }}"{{ end }}>
+  {{- if $href -}}
+  <a href="{{ $href }}" target="{{ $target }}" id="sc-image-link-{{ $imgOrdinal }}">
+  {{- else -}}
+  <label class="sc-image" for="sc-image-toggle-{{ $imgOrdinal }}">
+  <input class="hidden toggle" type="checkbox" id="sc-image-toggle-{{ $imgOrdinal }}" />
+  {{- end -}}
+  <img src="{{ $src }}"
+    {{- with $alt }}alt="{{ . }}"{{ end -}}
+    {{- with $class }}class="{{ . }}"{{ end -}}
+    id="sc-image-{{ $imgOrdinal }}"
+    {{- with $title }}title="{{ . }}"{{ end -}}
+    {{- with $width }}width="{{ . }}"{{ end -}}
+    {{- with $height }}height="{{ . }}"{{ end -}}
+    loading="{{ $loading | default `lazy` }}"
+    decoding="async"
+    {{- with $imgSize }}style="{{ delimit . `; ` | safeCSS }}"{{ end -}}>
+  {{- if $href -}}
+  </a>
+  {{- else -}}
+  </label>
+  {{- end -}}
+  {{- with $caption -}}<figcaption>{{ . }}</figcaption>{{- end -}}
+  </figure>
+</div>

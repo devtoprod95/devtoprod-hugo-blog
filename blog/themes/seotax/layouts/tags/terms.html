@@ -1,0 +1,42 @@
+{{ define "content" }}
+{{- /* ... */ -}}
+{{- $tree := dict -}}
+{{- range partialCached "pages/posts" . "posts" .Site.Language.Lang -}}
+  {{ if .Params.tags }}
+    {{- range .Params.tags -}}
+      {{- $count := default 0 (index $tree .) -}}
+      {{- $tree = merge $tree (dict . (add $count 1)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- /* convert map to slice so it can be sorted by count */ -}}
+{{ $tags := slice }}
+{{ range $name, $count := $tree }}
+  {{ $tags = $tags | append (dict "name" $name "count" $count) }}
+{{ end }}
+{{- /* ... */ -}}
+<article class="markdown content-wrap">
+  <div class="list-header">
+    <h1>
+      <i class="icon-tags"></i>
+      <span data-i18n-id="tags.terms.title" data-i18n-text>
+        {{- i18n "tags.terms.title" | default "Tags" -}}
+      </span>
+    </h1>
+    <p data-i18n-id="tags.count.label" data-i18n-text='{"%s": "$.list-count"}'>
+      {{- $count := printf `<em class="list-count">%d</em>` (len $tree) -}}
+      {{- printf (i18n "tags.count.label" | default "%s tags") $count | safeHTML -}}
+    </p>
+  </div>
+  <div class="taxonomy-chips">
+    {{ range sort $tags "count" "desc" "name" "asc" }}
+    <div class="taxonomy-item">
+      <a href="{{ `search/` | relLangURL }}?tags={{ .name }}" class="taxonomy-link">
+        <span class="taxonomy-name">{{ .name }}</span>
+        <span class="taxonomy-count">({{ .count }})</span>
+      </a>
+    </div>
+    {{ end }}
+  </div>
+</article>
+{{ end }}

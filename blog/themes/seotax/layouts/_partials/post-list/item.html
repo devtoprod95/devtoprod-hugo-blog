@@ -1,0 +1,64 @@
+<article class="post-item">
+
+  <div class="post-meta">
+    <time datetime="{{ .Date.Format `2006-01-02` }}" data-i18n-id="post.date.format" data-i18n-datetime>
+      {{- .Date.Format (i18n "post.date.format" | default "2006-01-02") -}}
+    </time>
+    {{ if .Params.categories }}
+    <div class="post-categories">
+      {{ $category1 := partial "categories/level1" .Params.categories }}
+      {{ if $category1 }}
+        <a href="{{ `search/` | relLangURL }}?category1={{ $category1 }}" class="category">
+          <i class="icon-folder"></i> {{ $category1 -}}
+        </a>
+
+        {{ $category2 := partial "categories/level2" .Params.categories }}
+        {{ if $category2 }}
+        <a href="{{ `search/` | relLangURL }}?category1={{ $category1 }}&category2={{ $category2 }}" class="category">
+        <i class="icon-file"></i> {{ $category2 -}}
+        </a>
+        {{ end }}
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+
+  {{ $coverImage := cond .Params.thumbnail .Params.thumbnail .Params.cover }}
+
+  <div class="post-content-area{{ if $coverImage }} has-cover{{ end }}">
+    {{ with cond .Params.cover .Params.cover .Params.thumbnail }}
+    <div class="post-cover-mobile">
+      {{- $thumbAttrs := partial "content/img-attr" (dict "Page" $ "Url" .) -}}
+      <img src="{{ . | absURL }}" alt="Cover Image" class="post-cover-mobile-img" {{ $thumbAttrs | safeHTMLAttr }} loading="lazy" decoding="async">
+    </div>
+    {{ end }}
+
+    <div class="post-text-area">
+      <h2 class="post-title">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </h2>
+
+      {{ with cond .Description .Description (cond .Summary .Summary "") }}
+      <div class="post-summary">
+        {{- . | plainify | truncate 148 -}}
+      </div>
+      {{ end }}
+
+      {{ if .Params.tags }}
+      <div class="post-tags">
+        {{ range first 5 .Params.tags }}
+        <a href="{{ `search/` | relLangURL }}?tags={{ . }}" class="tag"><i class="icon-tag"></i> {{ . -}}</a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+
+    {{ with $coverImage }}
+    <div class="post-cover">
+      {{- $coverAttrs := partial "content/img-attr" (dict "Page" $ "Url" .) -}}
+      <img src="{{ . | absURL }}" alt="Cover Image" class="post-cover-img" {{ $coverAttrs | safeHTMLAttr }} loading="lazy" decoding="async">
+    </div>
+    {{ end }}
+  </div>
+
+</article>

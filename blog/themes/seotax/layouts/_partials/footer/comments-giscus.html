@@ -1,0 +1,48 @@
+<div class="giscus" id="giscus-container"></div>
+<script>
+  (function() {
+    var savedTheme = localStorage.getItem('hugo-dark-mode');
+    var isDark = (savedTheme === 'dark') ||
+      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.setAttribute('data-repo', '{{ .Site.Params.comments.giscus.repo }}');
+    s.setAttribute('data-repo-id', '{{ .Site.Params.comments.giscus.repoId }}');
+    s.setAttribute('data-category', '{{ .Site.Params.comments.giscus.category }}');
+    s.setAttribute('data-category-id', '{{ .Site.Params.comments.giscus.categoryId }}');
+    s.setAttribute('data-mapping', '{{ .Site.Params.comments.giscus.mapping | default "pathname" }}');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', '{{ .Site.Params.comments.giscus.inputPosition | default "bottom" }}');
+    s.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    var storedLang = localStorage.getItem('site-language') || '{{ .Site.Language.Lang }}';
+    s.setAttribute('data-lang', storedLang);
+    s.setAttribute('data-loading', 'lazy');
+    s.setAttribute('crossorigin', 'anonymous');
+    s.async = true;
+    document.getElementById('giscus-container').appendChild(s);
+
+    window.setGiscusLang = function(lang) {
+      var iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { lang: lang } } },
+          'https://giscus.app'
+        );
+      }
+    };
+
+    window.setGiscusTheme = function(theme) {
+      var iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: theme } } },
+          'https://giscus.app'
+        );
+      }
+    };
+  })();
+</script>
+<noscript>{{ i18n "comments.noscript.text" | default "Please enable JavaScript to view the comments." }}</noscript>

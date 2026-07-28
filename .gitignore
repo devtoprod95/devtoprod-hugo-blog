@@ -1,0 +1,9 @@
+.history
+# Hugo build artifacts
+blog/public/
+blog/resources/_gen/
+blog/.hugo_build.lock
+
+# Operating System Files
+.DS_Store
+Thumbs.db

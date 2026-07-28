@@ -1,0 +1,23 @@
+services:
+  # 1. Hugo 블로그 서버 (개발용 Live Reload)
+  hugo:
+    image: hugomods/hugo:exts
+    container_name: hugo-blog
+    command: server --bind 0.0.0.0 -p 1313 --buildDrafts --watch
+    volumes:
+      - ./blog:/src
+    ports:
+      - "1313:1313"
+    working_dir: /src
+
+  # 2. Go 자동화 스크립트 실행 컨테이너
+  go-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.go
+    container_name: go-app
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      - TZ=Asia/Seoul

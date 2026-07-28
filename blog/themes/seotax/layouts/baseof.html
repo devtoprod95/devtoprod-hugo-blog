@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="{{ default .Site.Language.Lang .Site.LanguageCode }}" dir="{{ default `ltr` .Site.Language.LanguageDirection }}">
+<head>
+  {{ partial "head" . }}
+</head>
+<body class="site-kind-{{ .Kind }} site-type-{{ .Type }} site-layout-{{ .Layout }}"
+      dir="{{ default `ltr` .Site.Language.LanguageDirection }}">
+
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar"></div>
+  </div>
+
+  <label class="image-overlay-wrap" for="image-overlay-toggle">
+    <input class="hidden toggle" type="checkbox" id="image-overlay-toggle">
+    <div class="image-overlay"></div>
+  </label>
+
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <div class="menu-overlay"></div>
+
+  <main class="container">
+    {{ template "menu-container" . }} <!-- Left menu -->
+
+    <div class="main-wrap">
+      {{ template "header" . }} <!-- Header above page content -->
+      {{ template "content" . }} <!-- Page Content -->
+      {{ template "footer" . }} <!-- Footer under page content -->
+
+      <label for="menu-control" class="hidden site-menu-overlay"></label>
+    </div>
+
+    {{ template "toc-container" . }} <!-- Right ToC -->
+    {{ template "toolbar" . }} <!-- Right corner toolbar -->
+  </main>
+</body>
+</html>
+
+{{ define "menu-container" }}
+<aside class="site-menu"
+      aria-label="{{ i18n `menu.aside.tooltip` | default `Menu` }}"
+      data-i18n-id="menu.aside.tooltip"
+      data-i18n-attrs="aira-label">
+  <div class="menu-content">
+    {{ template "menu" . }}
+  </div>
+</aside>
+{{ end }}
+
+{{ define "menu" }}
+  {{ partial "menu/nav" . }}
+{{ end }}
+
+{{ define "header" }}
+<header class="site-header">
+  {{ partial "header/mobile" . }}
+</header>
+{{ end }}
+
+{{ define "content" }}
+<article class="content-wrap markdown" id="content-wrap">
+  {{ template "content-header" . }}
+  {{ partial "content/cover" . }}
+  {{- .Content -}}
+</article>
+{{ end }}
+
+{{ define "content-header" }}
+  <header class="content-header">
+    {{ partial "content/categories" . }}
+    {{ partial "content/title" . }}
+    {{ partial "content/datetime" . }}
+  </header>
+{{ end }}
+
+{{ define "footer" }}
+<footer class="site-footer">
+  {{ if eq .Section (default "posts" .Site.Params.posts.section) }}
+  {{ template "tags" . }}
+  {{ template "prev-next" . }}
+  {{ template "comments" . }}
+  {{ end }}
+  {{ template "copyright" . }}
+</footer>
+{{ end }}
+
+{{ define "tags" }}
+  <div class="tags-wrap">
+    {{- partial "footer/tags" . -}}
+  </div>
+{{ end }}
+
+{{ define "prev-next" }}
+  <div class="prev-next-wrap">
+    {{- partial "footer/prev-next" . -}}
+  </div>
+{{ end }}
+
+{{ define "comments" }}
+{{ if default true (default .Site.Params.comments.enabled .Params.comments.enabled) }}
+  <div class="comments-wrap">
+    {{- partial "footer/comments" . -}}
+  </div>
+{{ end }}
+{{ end }}
+
+{{ define "copyright" }}
+{{ if .Site.Copyright }}
+  <div class="copyright-wrap flex justify-center">
+    {{ partial "footer/copyright" . }}
+  </div>
+{{ end }}
+{{ end }}
+
+{{ define "toc-container" }}
+{{ if partial "toc-show" . }}
+<aside class="site-toc"
+      aria-label="{{ i18n `toc.aside.tooltip` | default `Table of Contents` }}"
+      data-i18n-id="toc.aside.tooltip" data-i18n-attrs="aira-label">
+  <div class="toc-content">
+    {{ template "toc" . }}
+  </div>
+  <div class="hidden" id="toc-config"
+    data-start="{{ .Site.Params.tableOfContents.startLevel }}"
+    data-end="{{ .Site.Params.tableOfContents.endLevel }}">
+  </div>
+</aside>
+{{ end }}
+{{ end }}
+
+{{ define "toc" }}
+  {{ .TableOfContents }}
+{{ end }}
+
+{{ define "toolbar" }}
+<div class="site-toolbar" role="toolbar" aria-label="{{ i18n `toolbar.wrap.tooltip` | default `Toolbar` }}'"
+    data-i18n-id="toolbar.wrap.tooltip" data-i18n-attrs="aira-label">
+  {{ partial "toolbar" . }}
+</div>
+{{ end }}

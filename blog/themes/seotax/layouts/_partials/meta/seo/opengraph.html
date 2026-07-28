@@ -1,0 +1,52 @@
+<meta property="og:title" content="{{ .Title }}" />
+<meta property="og:description" content="{{ partial `meta/description.html` . }}" />
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+
+{{- with cond .Params.thumbnail .Params.thumbnail .Params.cover -}}
+  <meta property="og:image" content="{{ . | absURL }}" />
+{{- else }}
+  {{- with $.Params.ogImages -}}
+    {{- range first 6 . }}<meta property="og:image" content="{{ . | absURL }}" />{{ end -}}
+  {{- else -}}
+    {{- $images := $.Resources.ByType "image" -}}
+    {{- $featured := $images.GetMatch "*feature*" -}}
+    {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
+    {{- with $featured -}}
+      <meta property="og:image" content="{{ $featured.Permalink }}"/>
+    {{- else -}}
+      {{- with .Site.Params.assets.opengraph }}<meta property="og:image" content="{{ . | absURL }}"/>{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+{{- if .IsPage }}
+{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+<meta property="article:section" content="{{ .Section }}" />
+{{ with .PublishDate }}<meta property="article:published_time" {{ .Format $iso8601 | printf `content=%q` | safeHTMLAttr }} />{{ end }}
+{{ with .Lastmod }}<meta property="article:modified_time" {{ .Format $iso8601 | printf `content=%q` | safeHTMLAttr }} />{{ end }}
+{{- end -}}
+
+{{- with .Params.audio }}<meta property="og:audio" content="{{ . }}" />{{ end }}
+{{- with .Params.locale }}<meta property="og:locale" content="{{ . }}" />{{ end }}
+{{- with .Site.Params.title }}<meta property="og:site_name" content="{{ . }}" />{{ end }}
+{{- with .Params.videos }}{{- range . }}
+<meta property="og:video" content="{{ . | absURL }}" />
+{{ end }}{{ end }}
+
+{{- /* If it is part of a series, link to related articles */}}
+{{- $seriesName := "" -}}
+{{ if reflect.IsSlice .Params.series }}
+  {{- $seriesName = cond (gt (len .Params.series) 0) (index .Params.series 0 | string) "" -}}
+{{ else if eq (printf "%T" .Params.series) "string" }}
+  {{- $seriesName = .Params.series -}}
+{{ end }}
+{{- $permalink := .Permalink -}}
+{{- if $seriesName -}}
+  {{- $seeAlso := slice -}}
+  {{- range partialCached "pages/series" $seriesName $seriesName .Site.Language.Lang | first 6 -}}
+    {{- if ne .Permalink $permalink -}}
+      <meta property="og:see_also" content="{{ .Permalink }}" />
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
