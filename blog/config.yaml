@@ -44,13 +44,13 @@ params:
     categories: true
     recentPosts: true
     categoryOrder:
-      - name: "개발"
+      - name: "기사"
         weight: 1
-      - name: "블로그"
+      - name: "개발"
         weight: 2
-      - name: "독서"
+      - name: "블로그"
         weight: 3
-      - name: "기타"
+      - name: "독서"
         weight: 4
 
   social:

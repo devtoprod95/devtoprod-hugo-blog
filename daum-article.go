@@ -224,27 +224,50 @@ func parseArticle(id, html, originalURL string) (NewsArticle, error) {
 		}
 	}
 
-	// 5. Parse Content (<p dmcf-ptype="general">...)
-	pRe := regexp.MustCompile(`<p[^>]*dmcf-ptype="general"[^>]*>(.*?)</p>`)
-	pMatches := pRe.FindAllStringSubmatch(html, -1)
-	
-	var contentBuilder strings.Builder
-	tagRe := regexp.MustCompile(`<[^>]*>`) // For stripping nested HTML tags inside paragraphs
-	
-	for _, match := range pMatches {
-		if len(match) > 1 {
-			pText := match[1]
-			// Remove HTML Tags
-			pText = tagRe.ReplaceAllString(pText, "")
-			pText = htmlUnescape(strings.TrimSpace(pText))
-			if pText != "" {
-				contentBuilder.WriteString(pText)
-				contentBuilder.WriteString("\n\n")
+	// 5. Parse Content and Images from article_view div in sequential order
+	viewRe := regexp.MustCompile(`(?s)<div[^>]*class="article_view"[^>]*>(.*?)</div>`)
+	viewMatch := viewRe.FindStringSubmatch(html)
+	var content string
+
+	if len(viewMatch) > 1 {
+		bodyHTML := viewMatch[1]
+		
+		// Match both <p dmcf-ptype="general"> and <img data-org-src="..."> / <img src="..."> in order
+		re := regexp.MustCompile(`(?s)<p[^>]*dmcf-ptype="general"[^>]*>(.*?)</p>|<img[^>]*data-org-src="([^"]+)"[^>]*>|<img[^>]*src="([^"]+)"[^>]*>`)
+		matches := re.FindAllStringSubmatch(bodyHTML, -1)
+		
+		var contentBuilder strings.Builder
+		tagRe := regexp.MustCompile(`<[^>]*>`)
+		
+		for _, match := range matches {
+			if len(match) > 1 && match[1] != "" { // p text match
+				pText := match[1]
+				pText = tagRe.ReplaceAllString(pText, "")
+				pText = htmlUnescape(strings.TrimSpace(pText))
+				if pText != "" {
+					contentBuilder.WriteString(pText)
+					contentBuilder.WriteString("\n\n")
+				}
+			} else if len(match) > 2 && match[2] != "" { // img data-org-src match
+				imgURL := match[2]
+				if !strings.HasPrefix(imgURL, "http") {
+					imgURL = "https:" + imgURL
+				}
+				contentBuilder.WriteString(fmt.Sprintf("![image](%s)\n\n", imgURL))
+			} else if len(match) > 3 && match[3] != "" { // img src match
+				imgURL := match[3]
+				// Filter out tiny tracker icons or pixels
+				if !strings.Contains(imgURL, "icon") && !strings.Contains(imgURL, "blank") && !strings.Contains(imgURL, "pixel") && !strings.Contains(imgURL, "size=") {
+					if !strings.HasPrefix(imgURL, "http") {
+						imgURL = "https:" + imgURL
+					}
+					contentBuilder.WriteString(fmt.Sprintf("![image](%s)\n\n", imgURL))
+				}
 			}
 		}
+		content = contentBuilder.String()
 	}
 
-	content := contentBuilder.String()
 	if content == "" {
 		return NewsArticle{}, fmt.Errorf("content is empty")
 	}

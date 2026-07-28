@@ -1,6 +1,6 @@
 {{- $json := dict -}}
-{{- $pages := partialCached "pages/search" . "search" .Site.Language.Lang -}}
-{{- $treeL1 := partialCached "categories/tree" . "categories" .Site.Language.Lang -}}
+{{- $pages := partial "pages/search" . -}}
+{{- $treeL1 := partial "categories/tree" . -}}
 {{- /* Create categories map with name and post IDs */ -}}
 {{- range $key1 := (partial "keys" $treeL1) -}}
   {{- $ids1 := slice -}}
