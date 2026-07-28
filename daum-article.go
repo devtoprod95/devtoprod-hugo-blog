@@ -38,6 +38,10 @@ func main() {
 		fmt.Println("No article URLs found from the main page.")
 		return
 	}
+	// Limit to the top 30 most recent articles to optimize speed and avoid rate limits (429)
+	if len(urls) > 30 {
+		urls = urls[:30]
+	}
 	fmt.Printf("Found %d unique article URLs. Starting categorization and scraping...\n", len(urls))
 
 	// Target categories we want to collect (1 article per category)
