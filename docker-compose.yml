@@ -26,3 +26,4 @@ services:
     environment:
       - TZ=Asia/Seoul
       - GOCACHE=/tmp/go-cache
+    command: sleep infinity
