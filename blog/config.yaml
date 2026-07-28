@@ -1,4 +1,4 @@
-baseURL: "http://localhost:1313/"
+baseURL: "https://devtoprod95.github.io/devtoprod-hugo-blog/"
 title: "devtoprod"
 description: "devtoprod's dev blog"
 copyright: "[© CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)"

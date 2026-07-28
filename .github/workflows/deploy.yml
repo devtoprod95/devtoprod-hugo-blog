@@ -1,0 +1,35 @@
+name: Deploy Hugo Site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master # master 브랜치에 푸시될 때 작동
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true  # 서브모듈이 있다면 함께 checkout (현재는 일반 폴더 상태이나 예비용으로 활성화)
+          fetch-depth: 0    # Hugo가 날짜와 히스토리를 파악할 수 있도록 전체 Git 히스토리 패치
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.154.5' # 프로젝트에 설치된 버전 호환을 위해 지정
+          extended: true
+
+      - name: Build with Hugo
+        run: hugo --minify
+        working-directory: blog # Hugo 프로젝트 소스가 들어있는 디렉토리 지정
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./blog/public # 빌드된 정적 HTML/CSS 파일들이 위치한 경로 지정
+          publish_branch: gh-pages # Pages 호스팅을 위해 업로드할 대상 브랜치
