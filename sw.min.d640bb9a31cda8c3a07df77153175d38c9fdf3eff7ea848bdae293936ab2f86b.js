@@ -1,0 +1,1 @@
+navigator.serviceWorker&&navigator.serviceWorker.register("/devtoprod-hugo-blog/sw.js",{scope:"/devtoprod-hugo-blog/"})

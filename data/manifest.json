@@ -1,0 +1,15 @@
+{
+  "name": "devtoprod",
+  "short_name": "devtoprod",
+  "start_url": "/devtoprod-hugo-blog/",
+  "scope": "/devtoprod-hugo-blog/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/devtoprod-hugo-blog/favicon.svg",
+      "sizes": "512x512"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>devtoprod</title>
+    <link>https://devtoprod95.github.io/devtoprod-hugo-blog/</link>
+    <description>Recent content on devtoprod</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <copyright>[© CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)</copyright>
+    <lastBuildDate>Tue, 28 Jul 2026 13:39:00 +0900</lastBuildDate>
+    <atom:link href="https://devtoprod95.github.io/devtoprod-hugo-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go &#43; Hugo 블로그 프로젝트 소개 및 개발 환경 안내</title>
+      <link>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/project-introduction/</link>
+      <pubDate>Tue, 28 Jul 2026 13:39:00 +0900</pubDate>
+      <guid>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/project-introduction/</guid>
+      <description>&lt;h1 id=&#34;-go--hugo-블로그-프로젝트&#34;&gt;🚀 Go + Hugo 블로그 프로젝트&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#-go--hugo-%eb%b8%94%eb%a1%9c%ea%b7%b8-%ed%94%84%eb%a1%9c%ec%a0%9d%ed%8a%b8&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;이 프로젝트는 &lt;strong&gt;Go 자동화 스크립트&lt;/strong&gt;와 **Hugo 정적 사이트 생성기(Static Site Generator)**를 &lt;strong&gt;Docker Compose&lt;/strong&gt; 환경으로 통합하여, 로컬에서 실시간으로 블로그를 집필하고 테스트 글을 자동으로 생성할 수 있도록 구축된 개발용 블로그 환경입니다.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;-주요-구성-요소-및-아키텍처&#34;&gt;📌 주요 구성 요소 및 아키텍처&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#-%ec%a3%bc%ec%9a%94-%ea%b5%ac%ec%84%b1-%ec%9a%94%ec%86%8c-%eb%b0%8f-%ec%95%84%ed%82%a4%ed%85%8d%ec%b2%98&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;이 프로젝트는 크게 두 개의 컨테이너 서비스로 구성되어 있습니다.&lt;/p&gt;&#xA;&#xA;&#xA;&lt;pre class=&#34;mermaid&#34;&gt;graph TD&#xA;    subgraph Host OS&#xA;        A[main.go] --&amp;gt;|마크다운 생성| B[(blog/content/posts)]&#xA;        C[blog/config.yaml] --&amp;gt;|블로그 설정| D[Hugo Server]&#xA;    end&#xA;    subgraph Docker Compose&#xA;        go_app[go-app 컨테이너] --&amp;gt;|동작| A&#xA;        hugo_blog[hugo-blog 컨테이너] --&amp;gt;|동작| D&#xA;    end&#xA;    D --&amp;gt;|Live Reload| Browser[브라우저 localhost:1313]&lt;/pre&gt;&lt;h3 id=&#34;1-hugo-블로그-서버-hugo-blog&#34;&gt;1. Hugo 블로그 서버 (&lt;code&gt;hugo-blog&lt;/code&gt;)&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#1-hugo-%eb%b8%94%eb%a1%9c%ea%b7%b8-%ec%84%9c%eb%b2%84-hugo-blog&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;이미지&lt;/strong&gt;: &lt;code&gt;hugomods/hugo:exts&lt;/code&gt; (확장 기능 포함 Hugo 최신 이미지)&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;역할&lt;/strong&gt;: &lt;code&gt;./blog&lt;/code&gt; 폴더를 컨테이너 내 &lt;code&gt;/src&lt;/code&gt;에 마운트하여, 마크다운 문서 및 테마 변경 사항을 감지하고 브라우저에 실시간으로 반영(&lt;code&gt;--watch&lt;/code&gt;)합니다.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;주요 경로&lt;/strong&gt;:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;file:///home/g015/project/go-hugo-blog/blog/config.yaml&#34;&gt;config.yaml&lt;/a&gt;: 블로그 기본 메타데이터, 테마(&lt;code&gt;seotax&lt;/code&gt;), 메뉴 및 SEO 설정이 포함되어 있습니다.&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;file:///home/g015/project/go-hugo-blog/blog/content/posts&#34;&gt;content/posts&lt;/a&gt;: 블로그 글(마크다운 파일)이 저장되는 위치입니다.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;2-go-자동화-컨테이너-go-app&#34;&gt;2. Go 자동화 컨테이너 (&lt;code&gt;go-app&lt;/code&gt;)&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#2-go-%ec%9e%90%eb%8f%99%ed%99%94-%ec%bb%a8%ed%85%8c%ec%9d%b4%eb%84%88-go-app&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;베이스 이미지&lt;/strong&gt;: &lt;code&gt;golang:1.22-alpine&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;역할&lt;/strong&gt;: 컨테이너 실행 시 &lt;a href=&#34;file:///home/g015/project/go-hugo-blog/main.go&#34;&gt;main.go&lt;/a&gt; 스크립트를 빌드 및 실행하여 Front Matter 형식의 날짜 기반 마크다운 테스트 포스팅을 &lt;code&gt;blog/content/posts/&lt;/code&gt; 하위에 자동으로 생성합니다.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;동작 방식&lt;/strong&gt;:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;로컬 시간대(&lt;code&gt;Asia/Seoul&lt;/code&gt;)를 적용하여 파일명에 생성 시간을 기록합니다.&lt;/li&gt;&#xA;&lt;li&gt;Docker Compose 빌드 흐름을 테스트하거나 자동 포스팅 파이프라인의 기초로 활용됩니다.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;-실행-및-사용-방법&#34;&gt;🛠️ 실행 및 사용 방법&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#-%ec%8b%a4%ed%96%89-%eb%b0%8f-%ec%82%ac%ec%9a%a9-%eb%b0%a9%eb%b2%95&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&lt;h3 id=&#34;1-전체-서비스-실행-docker-compose&#34;&gt;1. 전체 서비스 실행 (Docker Compose)&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#1-%ec%a0%84%ec%b2%b4-%ec%84%9c%eb%b9%84%ec%8a%a4-%ec%8b%a4%ed%96%89-docker-compose&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;터미널에서 아래 명령을 실행하여 Hugo 서버 및 Go 자동 포스팅 테스트 앱을 실행할 수 있습니다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Docker &#43; Go로 생성된 자동 포스팅 테스트</title>
+      <link>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/2026-07-28-120619-docker-test/</link>
+      <pubDate>Tue, 28 Jul 2026 12:06:19 +0900</pubDate>
+      <guid>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/2026-07-28-120619-docker-test/</guid>
+      <description>&lt;h2 id=&#34;-안녕-go--hugo-연동-성공&#34;&gt;📌 안녕! Go + Hugo 연동 성공!&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#-%ec%95%88%eb%85%95-go--hugo-%ec%97%b0%eb%8f%99-%ec%84%b1%ea%b3%b5&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;이 글은 &lt;strong&gt;Go 스크립트&lt;/strong&gt;가 도커 환경에서 직접 생성한 마크다운 파일입니다.&lt;/p&gt;&#xA;&lt;h3 id=&#34;테스트-정보&#34;&gt;테스트 정보&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#%ed%85%8c%ec%8a%a4%ed%8a%b8-%ec%a0%95%eb%b3%b4&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;생성 시각&lt;/strong&gt;: 2026-07-28 12:06:19&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;배포 방식&lt;/strong&gt;: Docker Compose + Hugo Live Reload&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;상태&lt;/strong&gt;: 정상 동작 확인 완료&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>기타 포스트 예시 - 시간 관리</title>
+      <link>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/etc-sample/</link>
+      <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/etc-sample/</guid>
+      <description>&lt;p&gt;기타 카테고리 샘플 글입니다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>독서 포스트 예시 - 소설 서평</title>
+      <link>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/book-sample/</link>
+      <pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/book-sample/</guid>
+      <description>&lt;p&gt;독서 카테고리 샘플 글입니다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>개발 포스트 예시 - AI 기술</title>
+      <link>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/dev-sample/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/dev-sample/</guid>
+      <description>&lt;p&gt;개발 카테고리 샘플 글입니다.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
