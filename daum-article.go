@@ -322,7 +322,7 @@ date: %s
 draft: false
 author: "%s"
 originalUrl: "%s"
-categories: ["기사", "엔터", "%s"]
+categories: ["기사", "%s"]
 ---
 
 %s

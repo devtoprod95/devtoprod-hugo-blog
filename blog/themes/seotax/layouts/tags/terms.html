@@ -1,7 +1,7 @@
 {{ define "content" }}
 {{- /* ... */ -}}
 {{- $tree := dict -}}
-{{- range partialCached "pages/posts" . "posts" .Site.Language.Lang -}}
+{{- range partial "pages/posts" . -}}
   {{ if .Params.tags }}
     {{- range .Params.tags -}}
       {{- $count := default 0 (index $tree .) -}}
