@@ -36,3 +36,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./blog/public # 빌드된 정적 HTML/CSS 파일들이 위치한 경로 지정
           publish_branch: gh-pages # Pages 호스팅을 위해 업로드할 대상 브랜치
+          nojekyll: true # gh-pages 브랜치에 .nojekyll 파일 강제 생성
