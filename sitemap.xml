@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20260813010328071/</loc>
-    <lastmod>2026-08-12T16:54:53+09:00</lastmod>
-  </url><url>
     <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/</loc>
-    <lastmod>2026-08-12T16:54:53+09:00</lastmod>
+    <lastmod>2026-08-12T20:40:22+09:00</lastmod>
   </url><url>
     <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/posts/</loc>
+    <lastmod>2026-08-12T20:40:22+09:00</lastmod>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20260813053937544/</loc>
+    <lastmod>2026-08-12T20:40:22+09:00</lastmod>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20260813010328071/</loc>
     <lastmod>2026-08-12T16:54:53+09:00</lastmod>
   </url><url>
     <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20260812214824953/</loc>
