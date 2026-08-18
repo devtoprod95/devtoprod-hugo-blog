@@ -1,1 +1,4 @@
 User-agent: *
+Allow: /
+
+Sitemap: https://devtoprod95.github.io/devtoprod-hugo-blog/sitemap.xml
