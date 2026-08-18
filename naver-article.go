@@ -318,6 +318,7 @@ func writePost(category Category, info ArticleInfo) (string, error) {
 	content := fmt.Sprintf(`---
 title: %q
 date: %s
+description: %q
 draft: false
 tags: ["엔터", %q]
 categories: ["엔터", %q]
@@ -336,6 +337,7 @@ source_url: %q
 `,
 		title,
 		now.Format(time.RFC3339),
+		summary,
 		category.Name,
 		category.Name,
 		info.URL,

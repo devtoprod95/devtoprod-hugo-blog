@@ -1,6 +1,7 @@
 ---
 title: "Go + Hugo 블로그 프로젝트 소개 및 개발 환경 안내"
 date: 2026-07-28T13:39:00+09:00
+description: "Go 자동화 스크립트와 Hugo 정적 사이트 생성기를 활용한 블로그 개발 환경 및 자동화 파이프라인 소개 가이드입니다."
 draft: false
 categories:
   - 블로그

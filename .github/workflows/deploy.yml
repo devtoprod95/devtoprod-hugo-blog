@@ -51,7 +51,7 @@ jobs:
           extended: true
 
       - name: Build with Hugo
-        run: hugo --minify
+        run: hugo --minify --environment production
         working-directory: blog # Hugo 프로젝트 소스가 들어있는 디렉토리 지정
 
       - name: Deploy to GitHub Pages

@@ -15,13 +15,25 @@ buildFuture: false
 buildExpired: false
 enableEmoji: true
 
+sitemap:
+  changefreq: "daily"
+  priority: 0.8
+  filename: "sitemap.xml"
+
 minify:
   disableXML: true
   minifyOutput: true
 
 params:
   author: "devtoprod"
-  keywords: ["devtoprod", "Blog", "Data", "Engineering", "MLOps", "데브투프로드", "블로그"]
+  keywords: ["devtoprod", "Blog", "Data", "Engineering", "MLOps", "데브투프로드", "블로그", "연예뉴스"]
+
+  searchEngine:
+    google:
+      siteVerificationTag: "google-site-verification=qGMxSBQ2ZSFbQ89csPO_YGIZtTCodR8vSzij2yd5UTM" # Google Search Console HTML 태그 content 값
+    naver:
+      siteVerificationTag: "f48d7a85dc483615e9b99aa1ceb924b1119093ff" # 네이버 서치어드바이저 HTML 태그 content 값
+
 
   posts:
     section: "posts"

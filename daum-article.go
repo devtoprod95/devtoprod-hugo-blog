@@ -323,6 +323,24 @@ func htmlUnescape(raw string) string {
 	return r.Replace(raw)
 }
 
+// cleanDescription extracts a plain text summary from markdown content for meta description
+func cleanDescription(content string) string {
+	// Remove markdown images, links, HTML tags, and markdown headers
+	reImg := regexp.MustCompile(`!\[.*?\]\(.*?\)`)
+	clean := reImg.ReplaceAllString(content, "")
+	reTag := regexp.MustCompile(`<[^>]*>`)
+	clean = reTag.ReplaceAllString(clean, "")
+	reMd := regexp.MustCompile(`[#*` + "`" + `]`)
+	clean = reMd.ReplaceAllString(clean, "")
+	clean = strings.ReplaceAll(clean, "\n", " ")
+	clean = strings.Join(strings.Fields(clean), " ")
+	runes := []rune(clean)
+	if len(runes) > 160 {
+		return string(runes[:157]) + "..."
+	}
+	return string(runes)
+}
+
 // saveToMarkdown saves the article as a Hugo Markdown post
 func saveToMarkdown(article NewsArticle, koreanCat, englishCat string) error {
 	// Target Directory: blog/content/posts/news/entertain/<englishCat>/
@@ -341,14 +359,21 @@ func saveToMarkdown(article NewsArticle, koreanCat, englishCat string) error {
 		return nil
 	}
 
+	desc := cleanDescription(article.Content)
+	if desc == "" {
+		desc = fmt.Sprintf("%s - %s 뉴스 기사입니다.", article.Title, koreanCat)
+	}
+
 	// Build markdown template
 	mdContent := fmt.Sprintf(`---
 title: "%s"
 date: %s
+description: "%s"
 draft: false
 author: "%s"
 originalUrl: "%s"
 categories: ["기사", "%s"]
+tags: ["연예뉴스", "%s", "기사"]
 ---
 
 %s
@@ -365,8 +390,10 @@ categories: ["기사", "%s"]
 `, 
 		strings.ReplaceAll(article.Title, "\"", "\\\""),
 		article.Date.Format("2006-01-02T15:04:05+09:00"),
+		strings.ReplaceAll(desc, "\"", "\\\""),
 		article.Author,
 		article.OriginalURL,
+		koreanCat,
 		koreanCat,
 		article.Content,
 		article.OriginalURL,
