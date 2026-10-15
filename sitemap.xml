@@ -2,17 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20261015174031578/</loc>
-    <lastmod>2026-10-15T08:50:11+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url><url>
     <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/</loc>
-    <lastmod>2026-10-15T08:50:11+09:00</lastmod>
+    <lastmod>2026-10-15T16:17:26+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url><url>
     <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/posts/</loc>
+    <lastmod>2026-10-15T16:17:26+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20261016010718405/</loc>
+    <lastmod>2026-10-15T16:17:26+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20261016005444348/</loc>
+    <lastmod>2026-10-15T16:17:26+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20261015174031578/</loc>
     <lastmod>2026-10-15T08:50:11+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
