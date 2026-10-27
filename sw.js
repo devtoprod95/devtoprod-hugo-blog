@@ -3,6 +3,9 @@ const pages = [
 
   "/devtoprod-hugo-blog/",
   "/devtoprod-hugo-blog/posts/",
+  "/devtoprod-hugo-blog/blog/20261027180227909/",
+  "/devtoprod-hugo-blog/blog/20261027183023844/",
+  "/devtoprod-hugo-blog/blog/20261027183118871/",
   "/devtoprod-hugo-blog/blog/20261027085544202/",
   "/devtoprod-hugo-blog/blog/20261027115223460/",
   "/devtoprod-hugo-blog/blog/20261027122910795/",
