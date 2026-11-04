@@ -1,9 +1,11 @@
 const cacheName = self.location.pathname
 const pages = [
 
-  "/devtoprod-hugo-blog/blog/20261104193228453/",
   "/devtoprod-hugo-blog/",
   "/devtoprod-hugo-blog/posts/",
+  "/devtoprod-hugo-blog/blog/20261105011625024/",
+  "/devtoprod-hugo-blog/blog/20261105030640277/",
+  "/devtoprod-hugo-blog/blog/20261104193228453/",
   "/devtoprod-hugo-blog/blog/20261104195758105/",
   "/devtoprod-hugo-blog/blog/20261104204721303/",
   "/devtoprod-hugo-blog/blog/20261104204924362/",
