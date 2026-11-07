@@ -3,12 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/</loc>
-    <lastmod>2026-11-07T19:52:11+09:00</lastmod>
+    <lastmod>2026-11-07T23:24:36+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url><url>
     <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/posts/</loc>
-    <lastmod>2026-11-07T19:52:11+09:00</lastmod>
+    <lastmod>2026-11-07T23:24:36+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20261108081924715/</loc>
+    <lastmod>2026-11-07T23:24:36+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20261108082100727/</loc>
+    <lastmod>2026-11-07T23:24:30+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url><url>
+    <loc>https://devtoprod95.github.io/devtoprod-hugo-blog/blog/20261108082327748/</loc>
+    <lastmod>2026-11-07T23:24:29+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url><url>
