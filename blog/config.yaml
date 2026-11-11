@@ -30,7 +30,7 @@ params:
 
   searchEngine:
     google:
-      siteVerificationTag: "google-site-verification=qGMxSBQ2ZSFbQ89csPO_YGIZtTCodR8vSzij2yd5UTM" # Google Search Console HTML 태그 content 값
+      siteVerificationTag: "CMzEpKutRJ5wYvRcJXNHIUaCobt7fPIzBDovFjDURb8" # Google Search Console HTML 태그 content 값
     naver:
       siteVerificationTag: "f48d7a85dc483615e9b99aa1ceb924b1119093ff" # 네이버 서치어드바이저 HTML 태그 content 값
 
